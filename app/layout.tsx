@@ -1,19 +1,27 @@
 
-import "./globals.css";
 import "@radix-ui/themes/styles.css";
-import { Theme } from "@radix-ui/themes";
+import './theme-config.css';
+import "./globals.css";
+import { Theme, ThemePanel } from "@radix-ui/themes";
 import NavBar from "./NavBar";
+import { Inter } from "next/font/google";
 
-export default function RootLayout({
-  children,
+const inter = Inter({
+	subsets: ["latin"],
+  display: "swap",
+	variable: "--font-inter",
+});
+
+export default function RootLayout({ 
+  children, 
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className={inter.variable}>
       <body>
-        <Theme>
-          <NavBar/>
+        <Theme accentColor="violet" grayColor="gray" appearance="light" radius='medium' scaling="100%" className="radix-themes"> 
+          <NavBar />
           <main className="p-5">{children}</main>
         </Theme>
       </body>
