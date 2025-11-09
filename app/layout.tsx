@@ -18,7 +18,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" /*className={inter.variable}*/>
       <body>
         <Theme accentColor="violet" grayColor="gray" appearance="light" radius='medium' scaling="100%" className="radix-themes"> 
           <NavBar />
