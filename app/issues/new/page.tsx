@@ -1,6 +1,6 @@
 'use client';
 
-import { TextField, Button } from '@radix-ui/themes';
+import { TextField, Button, Spinner } from '@radix-ui/themes';
 import { useForm, Controller } from 'react-hook-form';
 import axios from 'axios';
 import dynamic from 'next/dynamic';
@@ -33,6 +33,7 @@ const NewIssuePage = () => {
 
   const router = useRouter();
   const [error, setError] = useState('');
+  const [isSubmitting, setSubmitting] = useState(false);
 
   return (
     <div className='max-w-xl'>
@@ -46,9 +47,11 @@ const NewIssuePage = () => {
       <form className='space-y-3' 
         onSubmit={handleSubmit(async (data) => {
         try {
+          setSubmitting(true);
           await axios.post('/api/issues', data);
           router.push('/issues');
         } catch (error) {
+          setSubmitting(false);
           setError('Unexpected error occurred');
         }
         })}>
@@ -61,7 +64,7 @@ const NewIssuePage = () => {
           onChange={field.onChange} />
         )}/>
         <ErrorMessage>{errors.description?.message}</ErrorMessage>
-        <Button>Submit New Issue</Button>
+        <Button disabled={isSubmitting}>Submit New Issue {isSubmitting && <Spinner/>}</Button>
       </form>
     </div>
   )
