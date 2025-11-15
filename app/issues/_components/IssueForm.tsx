@@ -11,11 +11,11 @@ import { Callout } from '@radix-ui/themes';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { createIssueSchema } from '../../validationSchemas';
+import { issueSchema } from '../../validationSchemas';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { Issue } from '@prisma/client';
 
-type IssueFormData = z.infer<typeof createIssueSchema>;
+type IssueFormData = z.infer<typeof issueSchema>;
 
 interface Props {
   issue?: Issue
@@ -33,7 +33,7 @@ const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
 
 const IssueForm = ({issue}: {issue?: Issue}) => {
   const {register, control, handleSubmit, formState: { errors }} = useForm<IssueFormData>({
-    resolver: zodResolver(createIssueSchema)
+    resolver: zodResolver(issueSchema)
   });
 
   const router = useRouter();
