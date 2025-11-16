@@ -1,19 +1,18 @@
 'use client';
 
-import { TextField, Button, Spinner } from '@radix-ui/themes';
-import { useForm, Controller } from 'react-hook-form';
+import ErrorMessage from '@/app/components/ErrorMessage';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Issue } from '@prisma/client';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { Button, Callout, Spinner, TextField } from '@radix-ui/themes';
 import axios from 'axios';
-import dynamic from 'next/dynamic';
 import "easymde/dist/easymde.min.css";
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import { Callout } from '@radix-ui/themes';
-import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useForm } from 'react-hook-form';
+import SimpleMDE from 'react-simplemde-editor';
 import { z } from 'zod';
 import { issueSchema } from '../../validationSchemas';
-import ErrorMessage from '@/app/components/ErrorMessage';
-import { Issue } from '@prisma/client';
 
 type IssueFormData = z.infer<typeof issueSchema>;
 
@@ -22,9 +21,9 @@ interface Props {
 }
 
 
-const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
-  ssr: false,
-});
+//const SimpleMDE = dynamic(() => import('react-simplemde-editor'), {
+  //ssr: false,
+//});
 
 //interface IssueForm{
 //  title: string;
