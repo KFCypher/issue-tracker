@@ -1,8 +1,7 @@
 
-import prisma from '@/prisma/client'
-import { notFound } from 'next/navigation'
-//import dynamic from 'next/dynamic'
-import IssueFormSkeleton from '../../_components/IssueFormSkeleton';
+import prisma from '@/prisma/client';
+//import dynamic from 'next/dynamic';
+import { notFound } from 'next/navigation';
 import IssueForm from '../../_components/IssueForm';
 
 interface Props {
