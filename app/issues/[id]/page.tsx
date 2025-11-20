@@ -4,12 +4,17 @@ import { notFound } from 'next/navigation'
 import EditIssueButton from './EditIssueButton'
 import IssueDetails from './IssueDetails'
 import DeleteIssueButton from './DeleteIssueButton'
+import { getServerSession } from 'next-auth'
+import authOptions from '@/app/auth/authOptions'
 
 interface Props {
     params: Promise<{ id: string }>
 }
 
 const IssueDetailPage = async ({ params }: Props) => {
+  const session = await getServerSession(authOptions); // Ensure the user is authenticated
+
+
   const { id } = await params;
 
   // Check if id is a valid number
@@ -27,12 +32,12 @@ const IssueDetailPage = async ({ params }: Props) => {
       <Box className='md:col-span-4'>
         <IssueDetails issue={issue}/>
       </Box>
-      <Box>
+      {session && <Box>
         <Flex direction='column' gap='4'>
           <EditIssueButton issueId={issue.id} />
           <DeleteIssueButton issueId={issue.id} />
         </Flex>
-      </Box>
+      </Box>}
     </Grid>
   )
 }
