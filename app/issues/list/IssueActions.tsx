@@ -5,16 +5,12 @@ import IssueStatusFilter from "./IssueStatusFilter";
 
 const IssueActions = () => {
   return (
-    <div>
-      <div className="mb-5">
-        <Flex mb='5' justify='between'>
-          <IssueStatusFilter />
-          <Button>
-            <Link href="/issues/new">New Issue</Link>
-          </Button>
-        </Flex>
-      </div>
-    </div>
+    <Flex mb='5' justify='between'>
+      <IssueStatusFilter />
+      <Button>
+        <Link href="/issues/new">New Issue</Link>
+      </Button>
+    </Flex>
   );
 };
 
