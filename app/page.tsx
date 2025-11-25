@@ -1,8 +1,17 @@
 import Image from "next/image";
 import Pagination from "./components/Pagination";
 
-export default function Home() {
+interface Props {
+  searchParams: Promise<{ page?: string }>;
+}
+
+export default async function Home({searchParams}: Props) {
+
+  const resolvedSearchParams = await searchParams;
+
+  const pageNumber = parseInt(resolvedSearchParams.page || "1") || 1;
+
   return (
-    <Pagination itemCount={100} pageSize={10} currentPage={1}/>
+    <Pagination itemCount={100} pageSize={10} currentPage={pageNumber} />
   );
 }
