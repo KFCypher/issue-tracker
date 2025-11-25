@@ -4,10 +4,10 @@ import { Issue, Status } from "@prisma/client";
 import { Table } from "@radix-ui/themes";
 import IssueActions from "./IssueActions";
 import NextLink from 'next/link';
-import { ArrowDownIcon, ArrowUpIcon } from "@radix-ui/react-icons";
+import { ArrowUpIcon } from "@radix-ui/react-icons";
 
 interface Props {
-  searchParams: Promise<{ status?: Status,  orderBy: keyof Issue }>
+  searchParams: Promise<{ status?: Status, orderBy?: keyof Issue }>
 }
 
 const IssuesPage = async ({ searchParams }: Props) => {
@@ -32,27 +32,21 @@ const IssuesPage = async ({ searchParams }: Props) => {
     }
   ]
   
-  console.log('params:', params);
-  console.log('status:', params.status);
-  
   // Build the where clause
   const whereClause = params.status 
     ? { status: params.status } 
     : {};
-  
-  console.log('whereClause:', whereClause);
 
-  const orderBy = columns
+  const orderBy = params.orderBy && columns
     .map(column => column.value)
     .includes(params.orderBy)
     ? {[params.orderBy]: 'asc'}
     : undefined;
   
   const issues = await prisma.issue.findMany({
-    where: whereClause, orderBy
+    where: whereClause, 
+    orderBy
   });
-
-  console.log('Found issues:', issues.length);
 
   return (
     <div>
@@ -61,11 +55,24 @@ const IssuesPage = async ({ searchParams }: Props) => {
         <Table.Header>
           <Table.Row>
             {columns.map((column) => (
-              <Table.ColumnHeaderCell key={column.value}>
-                <NextLink href={{
-                  query: {...params, orderBy: column.value }
-                }}>{column.label}</NextLink>
-                {column.value === params.orderBy && <ArrowUpIcon className="inline"/>}
+              <Table.ColumnHeaderCell 
+                key={column.value}
+                className={column.className}
+              >
+                <NextLink 
+                  href={{
+                    pathname: '/issues/list',
+                    query: {
+                      ...(params.status && { status: params.status }),
+                      orderBy: column.value
+                    }
+                  }}
+                >
+                  {column.label}
+                </NextLink>
+                {column.value === params.orderBy && (
+                  <ArrowUpIcon className="inline"/>
+                )}
               </Table.ColumnHeaderCell> 
             ))}
           </Table.Row>
