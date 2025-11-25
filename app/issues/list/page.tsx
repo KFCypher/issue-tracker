@@ -41,9 +41,15 @@ const IssuesPage = async ({ searchParams }: Props) => {
     : {};
   
   console.log('whereClause:', whereClause);
+
+  const orderBy = columns
+    .map(column => column.value)
+    .includes(params.orderBy)
+    ? {[params.orderBy]: 'asc'}
+    : undefined;
   
   const issues = await prisma.issue.findMany({
-    where: whereClause
+    where: whereClause, orderBy
   });
 
   console.log('Found issues:', issues.length);
