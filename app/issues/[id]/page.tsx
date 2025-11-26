@@ -7,6 +7,10 @@ import DeleteIssueButton from './DeleteIssueButton'
 import { getServerSession } from 'next-auth'
 import authOptions from '@/app/auth/authOptions'
 import AssigneeSelect from './AssigneeSelect'
+import { Metadata } from 'next'
+import { parse } from 'path'
+import { title } from 'process'
+import { Description } from '@radix-ui/themes/components/alert-dialog'
 
 interface Props {
     params: Promise<{ id: string }>
@@ -43,5 +47,18 @@ const IssueDetailPage = async ({ params }: Props) => {
     </Grid>
   )
 }
+
+export async function generateMetadata({params}: Props): Promise<Metadata>{
+  const { id } = await params;
+const issue = await prisma.issue.findUnique({
+  where: { id: parseInt(id) }
+});
+
+  return {
+    title: issue?.title || 'Issue Details',
+    description: `Details of issue ${issue?.id || 'not found'}`
+  }
+}
+
 
 export default IssueDetailPage
