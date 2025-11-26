@@ -3,6 +3,7 @@ import Pagination from "./components/Pagination";
 import LatestIssues from "./LatestIssues";
 import IssueSummary from "./IssueSummary";
 import prisma from "@/prisma/client";
+import IssueChart from "./IssueChart";
 
 //interface Props {
   //searchParams: Promise<{ page?: string }>;
@@ -21,6 +22,6 @@ export default async function Home(/*{searchParams}: Props*/) {
   return (
     //<Pagination itemCount={100} pageSize={10} currentPage={pageNumber} />
     //<LatestIssues />
-    <IssueSummary open={open} inProgress={inProgress} closed={closed} />
+    <IssueChart open={open} inProgress={inProgress} closed={closed} />
   );
 }
