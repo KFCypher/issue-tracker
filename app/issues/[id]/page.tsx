@@ -11,10 +11,13 @@ import { Metadata } from 'next'
 import { parse } from 'path'
 import { title } from 'process'
 import { Description } from '@radix-ui/themes/components/alert-dialog'
+import { cache } from 'react'
 
 interface Props {
     params: Promise<{ id: string }>
 }
+
+const fetchUser = cache((issueId: number) => prisma.issue.findUnique({ where: {id: issueId }}))
 
 const IssueDetailPage = async ({ params }: Props) => {
   const session = await getServerSession(authOptions); // Ensure the user is authenticated
@@ -25,9 +28,8 @@ const IssueDetailPage = async ({ params }: Props) => {
   // Check if id is a valid number
   if (isNaN(parseInt(id))) notFound();
 
-  const issue = await prisma.issue.findUnique ({
-    where: { id: parseInt(id) }
-  })
+  const issue = await fetchUser(parseInt(id))
+    
 
   if(!issue)
      notFound();
@@ -50,9 +52,7 @@ const IssueDetailPage = async ({ params }: Props) => {
 
 export async function generateMetadata({params}: Props): Promise<Metadata>{
   const { id } = await params;
-const issue = await prisma.issue.findUnique({
-  where: { id: parseInt(id) }
-});
+const issue = await fetchUser(parseInt(id));
 
   return {
     title: issue?.title || 'Issue Details',
